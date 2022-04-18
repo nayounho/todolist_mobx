@@ -1,13 +1,20 @@
-import { Box } from "@mui/material";
-import { css } from "@emotion/react";
+import { Grid } from "@mui/material";
 import styled from "@emotion/styled";
 
 function App() {
   return (
     <AlignCenter>
-      <Box>1</Box>
-      <Box>2</Box>
-      <Box>3</Box>
+      <GridContainer container spacing={2}>
+        <Grid item xs={12}>
+          1
+        </Grid>
+        <Grid item xs={6}>
+          2
+        </Grid>
+        <Grid item xs={6}>
+          3
+        </Grid>
+      </GridContainer>
     </AlignCenter>
   );
 }
@@ -18,6 +25,10 @@ const AlignCenter = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const GridContainer = styled(Grid)`
+  width: 500px;
 `;
 
 export default App;
