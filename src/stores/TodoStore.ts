@@ -22,7 +22,7 @@ export class TodoStore {
   }
 
   add(todo: ITodo) {
-    this.todos.push(todo);
+    this.todos = [...this.todos, todo];
   }
   remove(id: number) {
     this.todos = this.todos.filter((todo) => todo.id !== id);

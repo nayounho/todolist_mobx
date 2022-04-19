@@ -8,12 +8,10 @@ import {
   ListItemText,
   styled,
 } from "@mui/material";
-import { trace } from "mobx";
 import { observer } from "mobx-react";
 import { useTodosStore } from "../stores/TodoStore";
 
 const CompletedList = observer(() => {
-  trace();
   const todosStore = useTodosStore();
 
   return (
