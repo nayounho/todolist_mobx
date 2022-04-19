@@ -1,4 +1,5 @@
 import {
+  Button,
   Checkbox,
   List,
   ListItem,
@@ -7,44 +8,40 @@ import {
   ListItemText,
   styled,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-interface ITodo {
-  id: string;
-  title: string;
-  completed: boolean;
-}
+import { trace } from "mobx";
+import { observer } from "mobx-react";
+import { useTodosStore } from "../stores/TodoStore";
 
-const CompletedList = () => {
-  const [todos, setTodos] = useState<ITodo[]>([]);
-
-  useEffect(() => {
-    setTodos([{ id: "123123", title: "completed todo 1", completed: false }]);
-  }, []);
+const CompletedList = observer(() => {
+  trace();
+  const todosStore = useTodosStore();
 
   return (
-    <StyledList>
-      {todos.length
-        ? todos.map(({ id, title, completed }) => {
-            return (
-              <ListItem key={id} disablePadding divider>
-                <ListItemButton>
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={completed}
-                      tabIndex={-1}
-                      disableRipple
-                    />
-                  </ListItemIcon>
-                  <ListItemText primary={title} />
-                </ListItemButton>
-              </ListItem>
-            );
-          })
-        : null}
-    </StyledList>
+    <>
+      <StyledList>
+        {todosStore.completedTodos.length
+          ? todosStore.completedTodos.map(({ id, title, completed }) => {
+              return (
+                <ListItem key={id} disablePadding divider>
+                  <ListItemButton>
+                    <ListItemIcon>
+                      <Checkbox
+                        edge="start"
+                        checked={completed}
+                        onClick={() => todosStore.toggle(id)}
+                      />
+                    </ListItemIcon>
+                    <ListItemText primary={title} />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })
+          : null}
+      </StyledList>
+      <Button onClick={() => todosStore.removeCompleted()}>Remove All</Button>
+    </>
   );
-};
+});
 
 const StyledList = styled(List)`
   width: 100%;

@@ -10,26 +10,17 @@ import {
   Button,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useState } from "react";
+import { useTodosStore } from "../stores/TodoStore";
+import { observer } from "mobx-react";
 
-interface ITodo {
-  id: string;
-  title: string;
-  completed: boolean;
-}
-
-const ActiveList = () => {
-  const [todos, setTodos] = useState<ITodo[]>([]);
-
-  useEffect(() => {
-    setTodos([{ id: "123123", title: "todo 1", completed: false }]);
-  }, []);
+const ActiveList = observer(() => {
+  const todosStore = useTodosStore();
 
   return (
     <>
       <StyledList>
-        {todos.length
-          ? todos.map(({ id, title, completed }) => {
+        {todosStore.activeTodos.length
+          ? todosStore.activeTodos.map(({ id, title, completed }) => {
               return (
                 <ListItem key={id} disablePadding divider>
                   <ListItemButton>
@@ -37,12 +28,14 @@ const ActiveList = () => {
                       <Checkbox
                         edge="start"
                         checked={completed}
-                        tabIndex={-1}
-                        disableRipple
+                        onClick={() => todosStore.toggle(id)}
                       />
                     </ListItemIcon>
                     <ListItemText primary={title} />
-                    <IconButton edge="end" aria-label="comments">
+                    <IconButton
+                      edge="end"
+                      onClick={() => todosStore.remove(id)}
+                    >
                       <DeleteOutlineIcon />
                     </IconButton>
                   </ListItemButton>
@@ -51,10 +44,10 @@ const ActiveList = () => {
             })
           : null}
       </StyledList>
-      <Button>Remove All</Button>
+      <Button onClick={() => todosStore.completeAll()}>Complete All</Button>
     </>
   );
-};
+});
 
 const StyledList = styled(List)`
   width: 100%;
