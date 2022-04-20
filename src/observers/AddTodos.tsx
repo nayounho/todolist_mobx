@@ -1,11 +1,16 @@
 import { observer } from "mobx-react";
 import { Button, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTodosStore } from "../stores/TodoStore";
+import { autorun, toJS } from "mobx";
 
 const AddTodos = observer(() => {
   const todosStore = useTodosStore();
   const [todo, setTodo] = useState("");
+
+  useEffect(() => {
+    autorun(() => console.log(toJS(todosStore.todos)));
+  }, []);
 
   return (
     <Stack direction="row" spacing={2} component="form">
