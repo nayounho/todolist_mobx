@@ -1,14 +1,13 @@
 import { makeAutoObservable } from "mobx";
 import { createContext, useContext } from "react";
+import { TodoModel } from "./models/TodoModel";
 
-export interface ITodo {
-  id: number;
-  title: string;
-  completed: boolean;
+export interface ITodoStore {
+  todos: TodoModel[];
 }
 
-export class TodoStore {
-  todos: ITodo[] = [];
+export class TodoStore implements ITodoStore {
+  todos: TodoModel[] = [];
 
   constructor() {
     makeAutoObservable(this);
@@ -21,7 +20,7 @@ export class TodoStore {
     return this.todos.filter((todo) => todo.completed);
   }
 
-  add(todo: ITodo) {
+  add(todo: TodoModel) {
     this.todos = [...this.todos, todo];
   }
   remove(id: number) {
