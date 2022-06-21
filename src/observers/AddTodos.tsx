@@ -1,41 +1,16 @@
-import { observer } from "mobx-react";
-import { Button, Stack, TextField } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useTodosStore } from "../stores/TodoStore";
-import { autorun, toJS } from "mobx";
+import { Button, Grid, TextField } from "@mui/material";
 
-const AddTodos = observer(() => {
-  const todosStore = useTodosStore();
-  const [todo, setTodo] = useState("");
-
-  useEffect(() => {
-    autorun(() => console.log(toJS(todosStore.todos)));
-  }, []);
-
+const AddTodos = () => {
   return (
-    <Stack direction="row" spacing={2} component="form">
+    <Grid container>
       <TextField
-        fullWidth
-        value={todo}
-        onChange={(e) => setTodo(e.target.value)}
-        label="Add your todo."
+        id="filled-basic"
+        label="Todo List를 추가하세요!!"
+        variant="filled"
       />
-      <Button
-        variant="contained"
-        type="submit"
-        onClick={(e) => {
-          e.preventDefault();
-          const { todos } = todosStore;
-          const id = todos.length
-            ? Math.max(...todos.map((todo) => todo.id)) + 1
-            : 1;
-          todosStore.add({ id, title: todo, completed: false });
-        }}
-      >
-        ADD
-      </Button>
-    </Stack>
+      <Button variant="contained">Add</Button>
+    </Grid>
   );
-});
+};
 
 export default AddTodos;

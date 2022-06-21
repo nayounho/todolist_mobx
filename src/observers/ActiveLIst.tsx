@@ -1,56 +1,32 @@
 import {
   Checkbox,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
-  styled,
-  Button,
 } from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useTodosStore } from "../stores/TodoStore";
-import { observer } from "mobx-react";
 
-const ActiveList = observer(() => {
-  const todosStore = useTodosStore();
+const dummyData = [
+  { id: 1, content: "Drogbar", check: false },
+  { id: 2, content: "Son", check: true },
+  { id: 3, content: "Messi", check: true },
+];
 
+const ActiveList = () => {
   return (
-    <>
-      <StyledList>
-        {todosStore.activeTodos.length
-          ? todosStore.activeTodos.map(({ id, title, completed }) => {
-              return (
-                <ListItem key={id} disablePadding divider>
-                  <ListItemButton>
-                    <ListItemIcon>
-                      <Checkbox
-                        edge="start"
-                        checked={completed}
-                        onClick={() => todosStore.toggle(id)}
-                      />
-                    </ListItemIcon>
-                    <ListItemText primary={title} />
-                    <IconButton
-                      edge="end"
-                      onClick={() => todosStore.remove(id)}
-                    >
-                      <DeleteOutlineIcon />
-                    </IconButton>
-                  </ListItemButton>
-                </ListItem>
-              );
-            })
-          : null}
-      </StyledList>
-      <Button onClick={() => todosStore.completeAll()}>Complete All</Button>
-    </>
+    <List>
+      {dummyData.map((li) => {
+        return (
+          <ListItem key={li.id} disablePadding>
+            <ListItemButton>
+              <Checkbox />
+            </ListItemButton>
+            <ListItemText primary={li.content} />
+          </ListItem>
+        );
+      })}
+    </List>
   );
-});
-
-const StyledList = styled(List)`
-  width: 100%;
-`;
+};
 
 export default ActiveList;
